@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CarePoint: fewer missed outpatient appointments</title>
+<meta name="description" content="CarePoint is a fictional concept that helps Irish hospitals cut missed outpatient appointments by letting patients confirm, cancel or request a new date in a few taps.">
+<meta name="theme-color" content="#007A78">
+<style>
+:root{--teal:#007A78;--teal-d:#005e5c;--navy:#2C3E50;--mint:#E0F2F1;--grey:#F8F9FA;--line:#d5dde3;--red:#FDEDEC;--blue:#EBF5FB}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:17px/1.6 "Segoe UI",Calibri,Arial,sans-serif;color:var(--navy);background:#fff}
+a{color:var(--teal-d)}
+:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.notice{background:var(--navy);color:#fff;font-size:14px;text-align:center;padding:8px 14px}
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px}
+.logo{font-weight:700;font-size:22px;color:var(--teal);text-decoration:none}.logo span{color:var(--navy)}
+nav{display:flex;gap:18px;font-size:15px}nav a{color:var(--navy);text-decoration:none}
+@media(max-width:760px){nav{display:none}}
+.btn{display:inline-block;background:var(--teal);color:#fff;font:600 16px "Segoe UI",Calibri,sans-serif;padding:12px 22px;border-radius:8px;border:2px solid var(--teal);text-decoration:none;cursor:pointer;min-height:46px}
+.btn:hover{background:var(--teal-d)}
+.btn.alt{background:#fff;color:var(--teal-d)}.btn.alt:hover{background:var(--mint)}
+.btn.s{padding:8px 14px;min-height:40px;font-size:15px}
+.btn.red{background:#c0392b;border-color:#c0392b;color:#fff}.btn.red:hover{background:#962d22}
+.hero{background:linear-gradient(180deg,var(--mint),#fff);padding:52px 0 40px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.15;margin:0 0 14px;max-width:18ch}
+h2{font-size:clamp(24px,3.5vw,32px);line-height:1.2;margin:0 0 14px}
+h3{font-size:19px;margin:0 0 6px;color:var(--teal-d)}
+.lead{font-size:19px;max-width:60ch}
+.small{font-size:14px;color:#506070}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:640px){.stats{grid-template-columns:1fr}}
+.stat{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:8px;padding:14px 16px}
+.stat b{display:block;font-size:30px;color:var(--teal)}
+section{padding:52px 0}section.g{background:var(--grey)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+.quote{background:var(--blue);border-left:5px solid var(--navy);padding:12px 18px;border-radius:0 8px 8px 0;margin:12px 0;font-style:italic}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:540px;font-size:15.5px}
+th{background:var(--teal);color:#fff;text-align:left}
+th,td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-size:13px;font-weight:600;border-radius:20px;padding:2px 10px;white-space:nowrap;background:var(--mint);color:var(--teal-d)}
+.pill.p{background:#fff3cd;color:#7a5b00}.pill.r{background:var(--red);color:#8a1c12}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.steps li{counter-increment:s;background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+.steps li:before{content:counter(s);display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;margin-bottom:6px}
+.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:16px 0}
+.price{background:#fff;border:2px solid var(--line);border-radius:12px;padding:18px}
+.price.f{border-color:var(--teal)}
+.price .n{font-size:30px;font-weight:700;color:var(--teal)}.price .n small{font-size:15px;color:#506070;font-weight:400}
+.warn{background:#fff8e1;border:1px solid #f0d98a;border-radius:8px;padding:12px 16px;font-size:15px}
+/* demo */
+.demo{background:#fff;border:2px solid var(--teal);border-radius:14px;padding:16px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tabs button{flex:1;padding:12px;font:600 16px "Segoe UI",Calibri,sans-serif;border:2px solid var(--teal);background:#fff;color:var(--teal-d);border-radius:8px;min-height:46px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--teal);color:#fff}
+.demo .tag{background:var(--red);color:#8a1c12;font-size:13px;font-weight:600;border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:8px}
+select,input{width:100%;padding:11px;font:inherit;border:1px solid #8a99a6;border-radius:8px;min-height:46px;color:var(--navy);background:#fff;margin:4px 0 10px}
+.ap{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;background:var(--grey)}
+.ap .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+@media(max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--mint);border-radius:8px;padding:8px 10px;font-size:14px}.kpi b{display:block;font-size:24px;color:var(--teal-d)}
+#msg{min-height:24px;font-weight:600;color:var(--teal-d);margin:8px 0}
+#modal{position:fixed;inset:0;background:rgba(44,62,80,.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}#modal[hidden]{display:none}
+.mbox{background:#fff;border-radius:14px;padding:22px;max-width:420px;width:100%;text-align:center}.mbox p{font-weight:600;font-size:18px;margin:0 0 16px}.mbox div{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 14px}.cal b{text-align:center;font-size:12px;color:#506070}
+.cd{min-height:50px;border:1px solid var(--line);background:#fff;border-radius:8px;font:600 15px "Segoe UI",Calibri,sans-serif;color:var(--navy);cursor:pointer;padding:2px}
+.cd small{display:block;font-size:10px;font-weight:400;line-height:1}.cd i{display:block;font-style:normal;font-size:11px;background:var(--teal);color:#fff;border-radius:10px;margin:2px auto 0;width:22px}
+.cd:not(.has){background:var(--grey)}.cd.sel{outline:3px solid var(--teal-d);background:var(--mint)}.cd:disabled{opacity:.35;cursor:default}
+footer{background:var(--navy);color:#dfe7ee;padding:28px 0;font-size:14.5px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="notice">CarePoint is a fictional student concept. Not a real product or service. All patient and appointment details are made-up sample data.</div>
+<header><div class="wrap">
+<a class="logo" href="#top">Care<span>Point</span></a>
+<nav aria-label="Main"><a href="#problem">The problem</a><a href="#solution">How it works</a><a href="#pricing">Pricing</a><a href="#demo">Demo</a></nav>
+<a class="btn" href="#demo">Try our demo</a>
+</div></header>
+
+<main>
+<div class="hero" id="top"><div class="wrap">
+<h1>Fewer missed appointments. Fuller clinics.</h1>
+<p class="lead">CarePoint lets outpatients confirm, cancel or request a new date in a few taps, so unused slots reach waiting patients before the clinic day, not after.</p>
+<p><a class="btn" href="#demo">Try our demo</a></p>
+<p class="small">See it from the patient's side and the hospital's side. For outpatient and administration managers in Irish public hospitals, and the patients they serve.</p>
+</div></div>
+
+<section class="g" style="padding:34px 0"><div class="wrap">
+<div class="stats">
+<div class="stat"><b>525,000+</b>missed outpatient appointments a year in Ireland</div>
+<div class="stat"><b>€67 million+</b>estimated yearly cost to healthcare</div>
+<div class="stat"><b>13%</b>of appointments missed overall</div>
+</div>
+<p class="small">Figures as published by the HSE and cited in the CarePoint project report. They describe the national problem, not CarePoint's results; CarePoint has no results yet.</p>
+</div></section>
+
+<section id="problem"><div class="wrap">
+<h2>Who has this problem</h2>
+<div class="cols">
+<div class="card"><h3>Who they are</h3><p><b>Working-age outpatients</b> in Irish public hospitals who get a postal appointment letter and have work, childcare or transport to juggle.</p></div>
+<div class="card"><h3>Who pays or decides</h3><p>Hospital management and the <b>outpatient administration</b> department.</p></div>
+<div class="card"><h3>Who uses it every day</h3><p>Patients (to confirm or change) and <b>scheduling staff</b> (to see freed slots and refill them).</p></div>
+</div>
+<div class="quote">"I got the letter weeks ago. Then work booked me in for training that morning. I rang for 25 minutes and gave up." <span class="small">(Invented patient quote.)</span></div>
+<div class="quote">"We have empty slots at 11:00 and a long waiting list, and nobody tells us in time." <span class="small">(Invented staff quote.)</span></div>
+<h3>What any solution must do</h3>
+<ul>
+<li>Let a patient cancel or request a new date in under a minute, on a phone, without ringing the hospital.</li>
+<li>Send reminders 7 days and 24 hours before each appointment.</li>
+<li>Work at any hour, not only office hours.</li>
+<li>Show staff a freed slot as soon as it is released.</li>
+<li>Offer freed slots to waiting-list patients.</li>
+<li>Leave phone and letter contact open for patients who cannot use it.</li>
+</ul>
+<p>Today, hospitals mix posted letters, phone calls and text reminders. Patients often still have to phone to cancel or change a time, so slots are lost even when the patient would have attended another day.</p>
+<h3 style="margin-top:22px">What already exists, and where CarePoint goes further</h3>
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th><a href="https://www.hse.ie/health-app/about-your-hse-health-app/" target="_blank" rel="noopener">HSE Health App</a></th><th><a href="https://uhk.ie/text-reminder-service/" target="_blank" rel="noopener">University Hospital Kerry text reminders</a></th><th>CarePoint (concept)</th></tr></thead>
+<tbody>
+<tr><td>Reminders or notifications</td><td>Notifies patients when appointment details change</td><td>Text reminders</td><td>Reminders 7 days and 24 hours before</td></tr>
+<tr><td>Confirm or say you will not attend</td><td>Not mentioned</td><td>Yes, by replying to the text</td><td>Yes</td></tr>
+<tr><td>Cancel an appointment</td><td>No, patients must phone the service</td><td>Reply to say you will not attend</td><td>Yes, one tap</td></tr>
+<tr><td>Request a reschedule</td><td>No, patients must phone the service</td><td>Not mentioned</td><td>Yes, notifies administration</td></tr>
+<tr><td>Book into cancelled slots</td><td>Not mentioned</td><td>Not mentioned</td><td>Yes, from a waiting list</td></tr>
+</tbody></table></div>
+<p class="small">Both services checked at source on 27 October 2026. "Not mentioned" means the page does not describe the feature; it may exist.</p>
+</div></section>
+
+<section class="g" id="solution"><div class="wrap">
+<h2>What CarePoint is</h2>
+<p class="lead">A proposed appointment management portal: a phone-friendly website for patients and a simple dashboard for hospital staff.</p>
+<ol class="steps">
+<li><h3>Patient is reminded</h3>Reminders are due 7 days and 24 hours before the appointment, worked out from the appointment date.</li>
+<li><h3>Patient confirms, cancels or requests a new date</h3>One tap on a phone. A cancelled slot shows as available on the staff dashboard straight away; a reschedule request alerts administration.</li>
+<li><h3>The slot is refilled</h3>Staff offer it to a waiting patient, or waiting patients pick it themselves. Once taken, the slot is filled.</li>
+</ol>
+<h3 style="margin-top:26px">How each requirement is met</h3>
+<div class="tw"><table>
+<thead><tr><th>Requirement</th><th>How CarePoint meets it</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Cancel or request a new date in under a minute, on a phone</td><td>Large buttons, plain language, one action per screen.</td><td><span class="pill">In the demo</span></td></tr>
+<tr><td>Reminders at 7 days and 24 hours</td><td>Reminder status is calculated from each appointment's date. The demo shows when a reminder is due but sends no real texts.</td><td><span class="pill">In the demo</span> <span class="pill p">Sending: planned</span></td></tr>
+<tr><td>Works at any hour</td><td>Responsive website, no office hours.</td><td><span class="pill">In the demo</span></td></tr>
+<tr><td>Staff see freed slots straight away</td><td>Staff dashboard lists scheduled, cancelled and available slots.</td><td><span class="pill">In the demo</span></td></tr>
+<tr><td>Offer freed slots to waiting-list patients</td><td>Waiting patients can book a cancelled slot themselves, or staff can offer it to the next patient for that clinic.</td><td><span class="pill">In the demo</span> <span class="pill p">Automatic alerts: planned</span></td></tr>
+<tr><td>Phone and letter stay available</td><td>CarePoint adds a channel; it does not remove existing ones.</td><td><span class="pill p">Planned (policy)</span></td></tr>
+</tbody></table></div>
+<p class="small">Real text messages, hospital system integration and secure login are planned, not built. A real version would need privacy protections before any real patient data is used.</p>
+<h3 style="margin-top:24px">Built for real situations</h3>
+<p>Phone first, large tap targets, short text, readable for older patients and people less confident with technology.</p>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+<h2>How CarePoint would be paid for</h2>
+<p class="lead">Hospitals pay an annual subscription. Patients never pay.</p>
+<div class="prices">
+<div class="price"><b>Small hospital</b><div class="n">€30,000 <small>/ year</small></div><p class="small">Roughly up to 40,000 outpatient appointments a year. Reminders, patient self-service, staff dashboard.</p></div>
+<div class="price f"><b>Regional hospital</b><div class="n">€60,000 <small>/ year</small></div><p class="small">Roughly 40,000 to 150,000 appointments a year. Adds waiting-list refill and reporting.</p></div>
+<div class="price"><b>Large or university hospital</b><div class="n">from €100,000 <small>/ year</small></div><p class="small">150,000+ appointments, several clinics or sites. Quoted after a pilot.</p></div>
+</div>
+<p class="warn"><b>These prices are assumptions</b> for this concept, not quotes. Text-message costs and one-off setup or integration work would be extra. Pricing would be tested in a pilot.</p>
+<p><b>Illustrative example:</b> a hospital with 40,000 outpatient appointments a year and a 13% miss rate has about 5,200 misses. If CarePoint helped refill one in five, that is about 1,040 slots. At roughly €128 per missed appointment (€67 million divided by 525,000, from the HSE figures above), that is about €130,000 of clinical capacity. All of this is assumption, not a result.</p>
+</div></section>
+
+<section class="g" id="demo"><div class="wrap">
+<h2>Try our demo</h2>
+<p>Use the <b>Patient</b> tab to confirm, cancel or request a reschedule. Choose a waiting-list patient (for example Ciara Lynch) to book a cancelled slot. In the <b>Hospital</b> tab, choose a department, then a clinic date from the calendar (numbers show how many patients are booked) to see that day's patient list. Each department has its own waiting list. Changes are saved in your browser and survive a refresh.</p>
+<div class="demo">
+<span class="tag">Sample data: all names and appointments are invented</span>
+<div class="tabs" role="tablist">
+<button role="tab" id="t1" aria-selected="true" onclick="tab(1)">Patient view</button>
+<button role="tab" id="t2" aria-selected="false" onclick="tab(2)">Hospital view</button>
+</div>
+<div id="msg" role="status" aria-live="polite"></div>
+<div id="pv">
+<label for="who"><b>Confirm your name</b></label>
+<input id="who" type="text" autocomplete="off" placeholder="Type your name" oninput="renderP()">
+<p class="small">Sample names to try: Aoife Murphy (Cardiology appointment), Ciara Lynch (Cardiology waiting list).</p>
+<div id="pc"></div>
+</div>
+<div id="hv" hidden></div>
+<p style="margin-top:14px"><button class="btn alt s" onclick="resetDemo()">Reset sample data</button></p>
+</div>
+<h3 style="margin-top:24px">Tested with someone who did not build it</h3>
+<div class="card">
+<p><b>What they tried:</b> [EDIT: describe the task you gave your tester.]</p>
+<p><b>What broke or confused them:</b> [EDIT: what went wrong.]</p>
+<p><b>What I changed:</b> [EDIT: the fix you made.]</p>
+</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+<p><b>CarePoint</b> is a fictional project made for a Technology for Business assignment at National College of Ireland. It is not a real product, and no hospital is involved or endorses it.</p>
+<p>Patient names and appointments are invented sample data. Figures marked as assumptions are not real prices or results. No testimonials, customer counts or ratings are claimed.</p>
+</div></footer>
+
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt" hidden><div class="mbox"><p id="mt"></p><div id="mb"></div></div></div>
+<script>
+var KEY='carepoint_demo_v4',TODAY=new Date();TODAY.setHours(0,0,0,0);var S,ME='',DEPT='Cardiology',DATE='',DEPTS=['Cardiology','Endocrinology','Oncology'];
+function p2(n){return(n<10?'0':'')+n}
+function iso(n){var d=new Date(TODAY);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function days(s){var a=s.split('-').map(Number);return Math.round((new Date(a[0],a[1]-1,a[2])-TODAY)/864e5)}
+function fmt(s){var a=s.split('-').map(Number);return new Date(a[0],a[1]-1,a[2]).toLocaleDateString('en-IE',{weekday:'short',day:'numeric',month:'short'})}
+function seed(){
+  var wd=[],k=1;while(wd.length<15){var g=new Date(TODAY);g.setDate(g.getDate()+k);if(g.getDay()%6)wd.push(k);k++}
+  var F=['Aoife','Brian','Ciara','Declan','Eimear','Fiona','Grainne','Hugh','Ita','John','Kevin','Liam','Maeve','Niamh','Orla','Padraig','Roisin','Sean','Tara','Una','Colm','Aine','Brid','Cathal','Donal','Eoin','Gerard','Helen','Ivan','Jane'],
+  L=['Murphy','Kelly','Byrne','Ryan','Walsh','Doyle','Brennan','Quinn','Nolan','Kavanagh','Fitzgerald','Brady','Keane','Dunne','Fox','Reilly','Hayes','Doherty','Casey','Moran','Sheehan','Flynn','Cullen','Naughton','Lynch','Daly','Burke','Gallagher','Carroll','Whelan','Hegarty'],
+  used={'Aoife Murphy':1,'Ciara Lynch':1,'Maeve Burke':1,'Una Carroll':1},ni=0,T=['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30'],
+  plan={Cardiology:[0,2,5,8],Endocrinology:[1,3,6,9],Oncology:[0,4,7,10]},first={Cardiology:'Ciara Lynch',Endocrinology:'Maeve Burke',Oncology:'Una Carroll'},r=[],w=[],n=0;
+  function nm(){var x;do{x=F[ni%30]+' '+L[(ni*7+3)%31];ni++}while(used[x]);used[x]=1;return x}
+  DEPTS.forEach(function(c){
+    plan[c].forEach(function(k,di){for(var t=0;t<(di%2?7:8);t++){r.push([c==='Cardiology'&&!r.length?'Aoife Murphy':nm(),c,k,T[t],n%5<2?'confirmed':'awaiting']);n++}});
+    w.push({n:first[c],c:c});for(var q=0;q<4;q++)w.push({n:nm(),c:c});
+  });
+  S={n:r.length+1,a:r.map(function(x,i){return{id:i+1,p:x[0],c:x[1],d:iso(wd[x[2]]),t:x[3],s:x[4]}}),w:w};
+}
+function load(){try{var j=localStorage.getItem(KEY);if(j){S=JSON.parse(j);return}}catch(e){}seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function say(t){document.getElementById('msg').textContent=t}
+function get(id){return S.a.filter(function(x){return x.id==id})[0]}
+function rem(a){if(a.s=='free'||a.s=='offered'||a.s=='filled')return'';var d=days(a.d);return d<=1?'24-hour reminder due':d<=7?'7-day reminder due':'No reminder due yet'}
+function when(a){var d=days(a.d);return fmt(a.d)+' at '+a.t+' ('+(d==0?'today':d==1?'tomorrow':'in '+d+' days')+')'}
+function tab(n){document.getElementById('pv').hidden=n!=1;document.getElementById('hv').hidden=n!=2;
+  document.getElementById('t1').setAttribute('aria-selected',n==1);document.getElementById('t2').setAttribute('aria-selected',n==2);say('');n==1?renderP():renderH()}
+function renderP(){
+  var typed=document.getElementById('who').value.trim().toLowerCase(),names=[];
+  S.a.forEach(function(a){var n=a.s=='free'?a.was:a.p;if(n&&names.indexOf(n)<0)names.push(n)});
+  S.w.forEach(function(w){names.push(w.n)});
+  var me=names.filter(function(n){return n.toLowerCase()==typed})[0];ME=me||'';
+  if(!me){document.getElementById('pc').innerHTML='<div class="ap">'+(typed?'We could not find that sample name. Check the spelling, for example Ciara Lynch.':'Type a sample name above to continue.')+'</div>';return}
+  var h='',w=S.w.filter(function(x){return x.n==me})[0];
+  if(w){
+    var o=S.a.filter(function(a){return a.s=='offered'&&a.o==me})[0];
+    h=o?'<div class="ap"><b>A slot has opened up for you</b><br>'+o.c+', '+when(o)+'<div class="row"><button class="btn s" onclick="acc('+o.id+')">Accept this slot</button><button class="btn alt s" onclick="dec('+o.id+')">No thanks</button></div></div>':'<div class="ap">You are on the waiting list for <b>'+w.c+'</b>. No slot has been offered yet. Book a cancelled slot below, or wait for an offer.</div>';
+    var fs=S.a.filter(function(a){return a.s=='free'&&a.c==w.c});
+    h+='<h3 style="margin-top:14px">Cancelled slots you can book ('+w.c+')</h3>'+(fs.length?fs.map(function(a){return'<div class="ap">'+when(a)+'<div class="row"><button class="btn s" onclick="book('+a.id+')">Book this slot</button></div></div>'}).join(''):'<div class="ap">None right now. A slot appears here when someone cancels.</div>');
+  }else{
+    var mine=S.a.filter(function(a){return a.p==me&&(a.s=='awaiting'||a.s=='confirmed'||a.s=='filled')});
+    h=mine.length?mine.map(function(a){
+      return'<div class="ap"><b>'+a.c+' clinic</b><br>'+when(a)+'<br><span class="pill'+(a.s=='awaiting'?' p':'')+'">'+(a.s=='awaiting'?'Please confirm':'Confirmed')+'</span> <span class="small">'+rem(a)+'</span>'+
+      (days(a.d)<=1?'<br><span class="small">Less than 24 hours away: cancelling now may be too late to refill the slot.</span>':'')+
+      '<div class="row">'+(a.s=='awaiting'?'<button class="btn s" onclick="conf('+a.id+')">Yes, I will attend</button>':'')+
+      (a.rq?'<span class="pill p">Reschedule requested</span>':'<button class="btn alt s" onclick="resch('+a.id+')">Request a reschedule</button>')+
+      '<button class="btn red s" onclick="askCancel('+a.id+')">Cancel this appointment</button></div></div>'}).join(''):'<div class="ap">No upcoming appointment.</div>';
+  }
+  document.getElementById('pc').innerHTML=h;
+}
+function conf(id){get(id).s='confirmed';save();say('Thank you, your attendance is confirmed.');renderP()}
+function canc(id){var a=get(id);a.o=null;a.rq=false;a.was=a.p;a.s='free';save();say('Your appointment has been cancelled. The slot now shows as available.');renderP()}
+function modal(t,btns){var m=document.getElementById('modal'),b=document.getElementById('mb');document.getElementById('mt').textContent=t;b.innerHTML='';
+  btns.forEach(function(x){var e=document.createElement('button');e.className='btn s '+(x.c||'');e.textContent=x.l;e.onclick=function(){m.hidden=true;if(x.f)x.f()};b.appendChild(e)});m.hidden=false;b.firstChild.focus()}
+function askCancel(id){modal('Are you sure you would like to cancel this appointment?',[{l:'Yes, cancel it',c:'red',f:function(){canc(id)}},{l:'No, keep it',c:'alt'}])}
+function resch(id){get(id).rq=true;save();renderP();modal('We have notified administration that you would like to reschedule your appointment.',[{l:'OK'}])}
+document.addEventListener('keydown',function(e){if(e.key=='Escape')document.getElementById('modal').hidden=true});
+function book(id){var a=get(id),me=ME;S.w=S.w.filter(function(x){return x.n!=me});a.p=me;a.o=null;a.s='filled';save();say('Slot booked. You are now off the waiting list.');renderP()}
+function handled(id){get(id).rq=false;save();renderH()}
+function acc(id){var a=get(id);S.w=S.w.filter(function(x){return x.n!=a.o});a.p=a.o;a.o=null;a.s='filled';save();say('Slot accepted. It is no longer empty.');renderP()}
+function dec(id){var a=get(id);a.o=null;a.s='free';save();say('Offer declined. The slot is available again.');renderP()}
+function offer(id){var a=get(id),w=S.w.filter(function(x){return x.c==a.c&&!S.a.some(function(b){return b.s=='offered'&&b.o==x.n})})[0];
+  if(!w){say('No one is waiting for '+a.c+'.');return}a.s='offered';a.o=w.n;save();say('Offered to '+w.n+'. Switch to Patient view and choose '+w.n+' to respond.');renderH()}
+function setDept(d){DEPT=d;renderH()}
+function setDate(d){if(d){DATE=d;renderH()}}
+function cal(){
+  var t0=new Date(TODAY);t0.setDate(t0.getDate()-((TODAY.getDay()+6)%7));
+  var h='<div class="cal" role="group" aria-label="Clinic calendar">'+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(function(x){return'<b>'+x+'</b>'}).join('');
+  for(var i=0;i<21;i++){var d=new Date(t0);d.setDate(t0.getDate()+i);var k=d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+    var n=S.a.filter(function(a){return a.c==DEPT&&a.d==k}).length;
+    h+='<button class="cd'+(k==DATE?' sel':'')+(n?' has':'')+'" '+(k<iso(0)?'disabled ':'')+'onclick="setDate(\''+k+'\')" aria-label="'+fmt(k)+', '+n+' appointments">'+(d.getDate()==1||i==0?'<small>'+d.toLocaleDateString('en-IE',{month:'short'})+'</small>':'')+d.getDate()+(n?'<i>'+n+'</i>':'')+'</button>'}
+  return h+'</div>'}
+function renderH(){
+  var A=S.a.filter(function(a){return a.c==DEPT&&a.d==DATE}),W=S.w.filter(function(w){return w.c==DEPT}),c={awaiting:0,confirmed:0,open:0,filled:0};
+  A.forEach(function(a){if(a.s=='awaiting')c.awaiting++;else if(a.s=='confirmed')c.confirmed++;else if(a.s=='filled')c.filled++;else c.open++});
+  var rows=A.slice().sort(function(a,b){return a.t<b.t?-1:1}).map(function(a){
+    var st=a.s=='free'?'<span class="pill r">Available</span> '+(days(a.d)<=1?'<span class="small">Late: hard to refill</span>':'<button class="btn s" onclick="offer('+a.id+')">Offer to waiting list</button>'):
+      a.s=='offered'?'<span class="pill p">Offered to '+a.o+'</span>':a.s=='filled'?'<span class="pill">Refilled</span>':a.s=='confirmed'?'<span class="pill">Confirmed</span>':'<span class="pill p">Awaiting reply</span>';
+    if(a.rq&&(a.s=='awaiting'||a.s=='confirmed'))st+=' <span class="pill r">Reschedule requested</span> <button class="btn alt s" onclick="handled('+a.id+')">Mark handled</button>';
+    return'<tr><td>'+a.t+'</td><td>'+(a.s=='free'||a.s=='offered'?'Freed by '+(a.was||'patient'):a.p)+'</td><td>'+rem(a)+'</td><td>'+st+'</td></tr>'}).join('');
+  var day=!DATE?'<div class="ap">Choose a clinic date above to see that day\'s patients.</div>':A.length?
+    '<h3>'+DEPT+' clinic, '+fmt(DATE)+'</h3><div class="kpis"><div class="kpi"><b>'+c.awaiting+'</b>awaiting reply</div><div class="kpi"><b>'+c.confirmed+'</b>confirmed</div><div class="kpi"><b>'+c.open+'</b>slots open</div><div class="kpi"><b>'+c.filled+'</b>refilled</div></div><div class="tw"><table><thead><tr><th>Time</th><th>Patient</th><th>Reminder</th><th>Status</th></tr></thead><tbody>'+rows+'</tbody></table></div>':
+    '<div class="ap">No '+DEPT+' clinic on '+fmt(DATE)+'. Days with a number have patients booked.</div>';
+  document.getElementById('hv').innerHTML='<div class="tabs" role="tablist">'+DEPTS.map(function(d){return'<button role="tab" aria-selected="'+(d==DEPT)+'" onclick="setDept(\''+d+'\')">'+d+'</button>'}).join('')+'</div>'+
+  '<label for="cd"><b>Clinic date</b></label><input id="cd" type="date" value="'+DATE+'" min="'+iso(0)+'" onchange="setDate(this.value)">'+cal()+day+
+  '<p><b>'+DEPT+' waiting list:</b> '+(W.length?W.map(function(w){return w.n}).join(', '):'empty')+'</p>';
+}
+function resetDemo(){seed();save();say('Sample data reset.');tab(document.getElementById('hv').hidden?1:2)}
+load();renderP();
+</script>
+</body>
+</html>
